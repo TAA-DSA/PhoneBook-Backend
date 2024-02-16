@@ -9,7 +9,16 @@ morgan("tiny");
 const PORT = 3001;
 
 app.use(express.json());
-app.use(morgan("combined"));
+
+morgan.token("reqBody", function (req, res) {
+  return JSON.stringify(req.body);
+});
+
+app.use(
+  morgan(
+    ":method :url :status :res[content-length] - :response-time ms :reqBody"
+  )
+);
 
 const sizeOfPhonebook = data.length;
 //console.log(sizeOfPhonebook);
