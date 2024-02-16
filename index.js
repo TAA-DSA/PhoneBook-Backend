@@ -95,14 +95,18 @@ app.delete("/api/persons/:id", (req, res) => {
   //deletes from the server but not from database
   try {
     const id = Number(req.params.id);
-    console.log("req.params.id: ", id);
+    //console.log("req.params.id: ", id);
     const contact = data.find((items) => items.id === id);
-    console.log("Look for id:", contact);
-    const index = data.indexOf(contact);
+    //console.log("Look for id:", contact);
+    const contactIndex = data.indexOf(contact);
 
-    console.log("index of found contact:", index);
-    data.splice(index, 1);
-    console.log(data);
+    if (contactIndex !== -1) {
+      console.log("index of found contact:", contactIndex);
+      data.splice(contactIndex, 1);
+      console.log(data);
+    }
+
+    //Write new data to json
     fs.writeFileSync("./data.json", JSON.stringify(data));
 
     res.send("Contact deleted Successfully");
