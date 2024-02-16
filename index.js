@@ -3,10 +3,13 @@ const app = express();
 const data = require("./data.json");
 const fs = require("fs");
 const morgan = require("morgan");
+const cors = require("cors");
+
+app.use(cors()); //Cross origin resource sharing
 
 morgan("tiny");
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 
