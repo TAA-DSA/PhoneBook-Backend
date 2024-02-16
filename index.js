@@ -81,6 +81,9 @@ app.post("/api/persons", (req, res) => {
   }
 
   data.push(contactObj);
+
+  fs.writeFileSync("./data.json", JSON.stringify(data));
+
   res.send(contactObj);
 
   //check why it is not writing in the data folder
@@ -90,13 +93,22 @@ app.post("/api/persons", (req, res) => {
 //Delete request
 app.delete("/api/persons/:id", (req, res) => {
   //deletes from the server but not from database
-  const id = Number(req.params.id);
-  const contact = data.find((items) => items.id === id);
-  const index = data.indexOf(contact);
-  console.log("index of found contact:", index);
-  data.splice(index, 1);
+  try {
+    const id = Number(req.params.id);
+    console.log("req.params.id: ", id);
+    const contact = data.find((items) => items.id === id);
+    console.log("Look for id:", contact);
+    const index = data.indexOf(contact);
 
-  res.send(contact);
+    console.log("index of found contact:", index);
+    data.splice(index, 1);
+    console.log(data);
+    fs.writeFileSync("./data.json", JSON.stringify(data));
+
+    res.send("Contact deleted Successfully");
+  } catch (error) {
+    console.error("Something is not right", error);
+  }
 });
 
 //
