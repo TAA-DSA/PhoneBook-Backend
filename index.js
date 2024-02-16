@@ -76,31 +76,36 @@ const generateId = () => {
 
 //Post Request
 app.post("/api/persons", (req, res) => {
-  const body = req.body;
+  try {
+    const body = req.body;
 
-  const contactObj = {
-    id: generateId(),
-    name: body.name,
-    number: body.number,
-  };
+    const contactObj = {
+      id: generateId(),
+      name: body.name,
+      number: body.number,
+    };
 
-  const isDuplicate = data.some(
-    (elements) => elements.name === contactObj.name
-  );
+    const isDuplicate = data.some(
+      (elements) => elements.name === contactObj.name
+    );
 
-  if (!contactObj.name || !contactObj.number) {
-    res.status(400).json({ error: "name and number cannot be empty" });
+    if (!contactObj.name || !contactObj.number) {
+      res.status(400).json({ error: "name and number cannot be empty" });
+    }
+
+    if (isDuplicate) {
+      res.status(400).json({ error: "name should be unique" });
+    }
+
+    data.push(contactObj);
+
+    fs.writeFileSync("./data.json", JSON.stringify(data));
+
+    res.send(contactObj);
+  } catch (error) {
+    res.status(500).send("Something went wrong");
+    console.error("Some thing doesn't feel right :", error);
   }
-
-  if (isDuplicate) {
-    res.status(400).json({ error: "name should be unique" });
-  }
-
-  data.push(contactObj);
-
-  fs.writeFileSync("./data.json", JSON.stringify(data));
-
-  res.send(contactObj);
 
   //check why it is not writing in the data folder
   //fs.writeFile("./data.json", JSON.stringify({ contactObj }));
