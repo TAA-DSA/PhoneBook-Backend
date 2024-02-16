@@ -2,17 +2,21 @@ const express = require("express");
 const app = express();
 const data = require("./data.json");
 const fs = require("fs");
+const morgan = require("morgan");
+
+morgan("tiny");
 
 const PORT = 3001;
 
 app.use(express.json());
+app.use(morgan("combined"));
 
 const sizeOfPhonebook = data.length;
-console.log(sizeOfPhonebook);
+//console.log(sizeOfPhonebook);
 
 const date = new Date(Date.now());
 const showDate = date.toString();
-console.log("Show Date :", showDate);
+//console.log("Show Date :", showDate);
 
 //Send html
 app.get("/info", (req, res) => {
