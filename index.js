@@ -86,24 +86,27 @@ app.post("/api/persons", (req, res) => {
     };
 
     const isDuplicate = data.some(
-      (elements) => elements.name === contactObj.name
+      (elements) =>
+        elements.name.toLocaleLowerCase() ===
+        contactObj.name.toLocaleLowerCase()
     );
 
-    if (!contactObj.name || !contactObj.number) {
-      res.status(400).json({ error: "name and number cannot be empty" });
-    }
-
-    if (isDuplicate) {
-      res.status(400).json({ error: "name should be unique" });
+    if (!contactObj.name || !contactObj.number || isDuplicate) {
+      let errorMessage = "";
+      if (!contactObj.name || !contactObj.number) {
+        errorMessage = "name and number cannot be empty";
+      } else {
+        errorMessage = "name should be unique";
+      }
+      res.status(400).json({ error: errorMessage });
     }
 
     data.push(contactObj);
 
     fs.writeFileSync("./data.json", JSON.stringify(data));
 
-    res.send(contactObj);
+    return res.send(contactObj);
   } catch (error) {
-    res.status(500).send("Something went wrong");
     console.error("Some thing doesn't feel right :", error);
   }
 
