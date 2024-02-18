@@ -13,9 +13,9 @@ mongoose.set("strictQuery", false);
 
 mongoose.connect(url);
 
-const noteSchema = new mongoose.Schema({
-  content: String,
-  important: Boolean,
+const contactSchema = new mongoose.Schema({
+  name: String,
+  number: String,
 });
 
 const Note = mongoose.model("Note", noteSchema);
