@@ -18,14 +18,14 @@ const contactSchema = new mongoose.Schema({
   number: String,
 });
 
-const Note = mongoose.model("Note", noteSchema);
+const Contact = mongoose.model("Contact", noteSchema);
 
-const note = new Note({
-  content: "HTML is easy",
-  important: true,
+const contact = new Contact({
+  name: "",
+  number: "",
 });
 
-note.save().then((result) => {
-  console.log("note saved!");
+contact.save().then((result) => {
+  console.log("contact saved!");
   mongoose.connection.close();
 });
