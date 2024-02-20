@@ -4,14 +4,15 @@ const data = require("./data.json");
 const fs = require("fs");
 const morgan = require("morgan");
 const cors = require("cors");
+const dataBase = require("./mongo.js");
+
+require("dotenv").config();
 
 app.use(cors()); //Cross origin resource sharing
 
 morgan("tiny");
 
-console.log(process.env.PORT);
-
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
