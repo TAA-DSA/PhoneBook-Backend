@@ -4,7 +4,7 @@ const data = require("./data.json");
 const fs = require("fs");
 const morgan = require("morgan");
 const cors = require("cors");
-const dataBase = require("./mongo.js");
+const Contact = require("./models/mongo.js");
 
 require("dotenv").config();
 
@@ -19,6 +19,8 @@ app.use(express.json());
 morgan.token("reqBody", function (req, res) {
   return JSON.stringify(req.body);
 });
+
+//Asking app to use middleware
 
 app.use(
   morgan(
@@ -45,8 +47,14 @@ app.get("/info", (req, res) => {
   }
 });
 
-app.get("/api/persons", (req, res) => {
-  res.json(data);
+app.get("/api/persons", async (req, res) => {
+  try {
+    const contact = await Contact.find({});
+    res.json(contact);
+    console.log("All saved contact are on Front-end");
+  } catch (error) {
+    console.error("Cannot find contacts", error);
+  }
 });
 
 app.get("/api/persons/:id", (req, res) => {
@@ -55,6 +63,7 @@ app.get("/api/persons/:id", (req, res) => {
     console.log("Requested ID:", id);
 
     // Log the entire data array to verify its structure
+
     console.log("Data:", data);
 
     const contact = data.find((item) => item.id === id);
