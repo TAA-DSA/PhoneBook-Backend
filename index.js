@@ -9,6 +9,8 @@ app.use(cors()); //Cross origin resource sharing
 
 morgan("tiny");
 
+console.log(process.env.PORT);
+
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
