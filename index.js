@@ -16,6 +16,8 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
+//initiating middleware morgan
+
 morgan.token("reqBody", function (req, res) {
   return JSON.stringify(req.body);
 });
@@ -28,22 +30,20 @@ app.use(
   )
 );
 
-const sizeOfPhonebook = data.length;
-//console.log(sizeOfPhonebook);
-
 const date = new Date(Date.now());
 const showDate = date.toString();
 //console.log("Show Date :", showDate);
 
 //Send html
-app.get("/info", (req, res) => {
+app.get("/info", async (req, res) => {
   try {
-    const openingMessage = `<h2>Phonebook has info ${sizeOfPhonebook} people</h2>`;
+    const numberOfContact = await Contact.countDocuments();
+    const openingMessage = `<h2>Phonebook has info ${numberOfContact} people</h2>`;
     const currDate = `<p>${showDate}</p>`;
     const message = openingMessage + currDate;
     res.send(message);
   } catch (error) {
-    console.error("Cannot render:", error);
+    console.error("Cannot render, please check error:", error);
   }
 });
 
@@ -86,16 +86,15 @@ const generateId = () => {
   return maxId + 1;
 };
 
-//Post Request
+//Post Request integrate with mongo, check later
 app.post("/api/persons", (req, res) => {
   try {
     const body = req.body;
 
-    const contactObj = {
-      id: generateId(),
+    const contactObj = new Contact({
       name: body.name,
       number: body.number,
-    };
+    });
 
     const isDuplicate = data.some(
       (elements) =>
