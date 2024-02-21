@@ -20,7 +20,7 @@ const url = process.env.URI;
 const connectToDatabase = async () => {
   try {
     await mongoose.connect(url);
-    console.log("Connect to mongoDB");
+    console.log("Connected to mongoDB");
   } catch (error) {
     console.error("Error connecting to mongoDB", error);
   }
@@ -41,6 +41,17 @@ connectToDatabase();
 const contactSchema = new mongoose.Schema({
   name: String,
   number: String,
+});
+
+//mongoose transform function
+//toJSON just transforms it into string just to be safe
+
+contactSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
 });
 
 //Cutomize mongo Schema

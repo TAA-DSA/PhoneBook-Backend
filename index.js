@@ -5,6 +5,7 @@ const fs = require("fs");
 const morgan = require("morgan");
 const cors = require("cors");
 const Contact = require("./models/mongo.js");
+const { default: mongoose } = require("mongoose");
 
 require("dotenv").config();
 
@@ -51,43 +52,44 @@ app.get("/api/persons", async (req, res) => {
   try {
     const contact = await Contact.find({});
     res.json(contact);
-    console.log("All saved contact are on Front-end");
+    console.log("All saved contact are sent to Front-end");
   } catch (error) {
     console.error("Cannot find contacts", error);
   }
 });
 
-app.get("/api/persons/:id", (req, res) => {
-  try {
-    const id = Number(req.params.id);
-    console.log("Requested ID:", id);
+//Search by Id get request
+// app.get("/api/persons/:id", (req, res) => {
+//   try {
+//     const id = Number(req.params.id);
+//     console.log("Requested ID:", id);
 
-    // Log the entire data array to verify its structure
+//     // Log the entire data array to verify its structure
 
-    console.log("Data:", data);
+//     console.log("Data:", data);
 
-    const contact = data.find((item) => item.id === id);
-    console.log("Found Contact:", contact);
+//     const contact = Contact.map((item) => item.id === id);
+//     console.log("Found Contact:", contact);
 
-    if (!contact) {
-      console.log("Contact not found");
-      return res.status(404).json({ error: "Contact not found" });
-    }
+//     if (!contact) {
+//       console.log("Contact not found");
+//       return res.status(404).json({ error: "Contact not found" });
+//     }
 
-    res.json(contact);
-  } catch (err) {
-    console.error("Error:", err);
-  }
-});
+//     res.json(contact);
+//   } catch (err) {
+//     console.error("Error:", err);
+//   }
+// });
 
-//Generate id
-const generateId = () => {
-  const maxId = data.length > 0 ? Math.max(...data.map((n) => n.id)) : 0;
-  return maxId + 1;
-};
+// //Generate id
+// const generateId = () => {
+//   const maxId = data.length > 0 ? Math.max(...data.map((n) => n.id)) : 0;
+//   return maxId + 1;
+// };
 
 //Post Request integrate with mongo, check later
-app.post("/api/persons", (req, res) => {
+app.post("/api/persons", async (req, res) => {
   try {
     const body = req.body;
 
@@ -96,7 +98,10 @@ app.post("/api/persons", (req, res) => {
       number: body.number,
     });
 
-    const isDuplicate = data.some(
+    const allRecords = await Contact.find({});
+    console.log("all records", allRecords);
+
+    const isDuplicate = allRecords.some(
       (elements) =>
         elements.name.toLocaleLowerCase() ===
         contactObj.name.toLocaleLowerCase()
@@ -110,19 +115,17 @@ app.post("/api/persons", (req, res) => {
         errorMessage = "name should be unique";
       }
       res.status(400).json({ error: errorMessage });
+    } else {
+      savedContact = await contactObj.save();
+      return res.send(savedContact);
     }
 
-    data.push(contactObj);
+    //data.push(contactObj);
 
-    fs.writeFileSync("./data.json", JSON.stringify(data));
-
-    return res.send(contactObj);
+    // fs.writeFileSync("./data.json", JSON.stringify(data));
   } catch (error) {
     console.error("Some thing doesn't feel right :", error);
   }
-
-  //check why it is not writing in the data folder
-  //fs.writeFile("./data.json", JSON.stringify({ contactObj }));
 });
 
 //Delete request
