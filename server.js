@@ -2,9 +2,10 @@ const app = require("./middleware/error.middleware.js");
 const data = require("./data.json");
 const route = require("./routes/index.routes");
 const Contact = require("./models/mongo.js");
+const connectToDatabase = require("./database/db.init.js");
 const cors = require("cors");
 
-require("dotenv").config();
+connectToDatabase();
 
 const PORT = process.env.PORT || 3000;
 
