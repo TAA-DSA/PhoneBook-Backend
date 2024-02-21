@@ -74,7 +74,7 @@ app.get("/api/persons/:id", async (req, res) => {
 
     if (!contact) {
       console.log("Contact not found");
-      return res.status(404).json({ error: "Contact not found" });
+      return res.status(404).end();
     }
 
     res.json(contact);
