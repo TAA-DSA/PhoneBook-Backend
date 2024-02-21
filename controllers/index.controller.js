@@ -11,7 +11,7 @@ const createContact = async (req, res) => {
     });
 
     const allRecords = await Contact.find({});
-    console.log("all records", allRecords);
+    //console.log("all records", allRecords);
 
     const isDuplicate = allRecords.some(
       (elements) =>
@@ -50,6 +50,19 @@ const indexPage = async (req, res) => {
     res.send(message);
   } catch (error) {
     console.error("Cannot render, please check error:", error);
+  }
+};
+
+const updateNumberOnly = async (req, res) => {
+  try {
+    const matchName = { name: req.params.name };
+    console.log("matchName :", matchName);
+    const newNumber = { number: req.body.number };
+    console.log("newNumber :", newNumber);
+    const updateNumber = await Contact.findOneAndUpdate(matchName, newNumber);
+    res.json("Successfully updated contact number");
+  } catch (error) {
+    console.error("Cannot update, please check err", error);
   }
 };
 
@@ -98,6 +111,7 @@ const deleteAllContact = async (req, res) => {
 
 module.exports = {
   createContact,
+  updateNumberOnly,
   indexPage,
   getAllContact,
   getContactById,

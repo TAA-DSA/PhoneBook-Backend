@@ -5,6 +5,7 @@ const router = express.Router();
 router.get("/info", indexController.indexPage);
 router.get("/api/persons", indexController.getAllContact);
 router.get("/api/persons/:id", indexController.getContactById);
+router.put("/api/persons/:name", indexController.updateNumberOnly);
 router.post("/api/persons", indexController.createContact);
 router.delete("/api/persons/:id", indexController.deleteAllContact);
 
