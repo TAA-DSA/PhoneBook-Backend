@@ -59,28 +59,29 @@ app.get("/api/persons", async (req, res) => {
 });
 
 //Search by Id get request
-// app.get("/api/persons/:id", (req, res) => {
-//   try {
-//     const id = Number(req.params.id);
-//     console.log("Requested ID:", id);
+app.get("/api/persons/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log("Requested ID:", id);
 
-//     // Log the entire data array to verify its structure
+    // Log the entire data array to verify its structure
 
-//     console.log("Data:", data);
+    const contact = await Contact.findById(id);
+    console.log("Hurray Id found", contact);
 
-//     const contact = Contact.map((item) => item.id === id);
-//     console.log("Found Contact:", contact);
+    // const contact = Contact.map((item) => item.id === id);
+    // console.log("Found Contact:", contact);
 
-//     if (!contact) {
-//       console.log("Contact not found");
-//       return res.status(404).json({ error: "Contact not found" });
-//     }
+    if (!contact) {
+      console.log("Contact not found");
+      return res.status(404).json({ error: "Contact not found" });
+    }
 
-//     res.json(contact);
-//   } catch (err) {
-//     console.error("Error:", err);
-//   }
-// });
+    res.json(contact);
+  } catch (err) {
+    console.error("Error:", err);
+  }
+});
 
 // //Generate id
 // const generateId = () => {
@@ -119,9 +120,7 @@ app.post("/api/persons", async (req, res) => {
       savedContact = await contactObj.save();
       return res.send(savedContact);
     }
-
     //data.push(contactObj);
-
     // fs.writeFileSync("./data.json", JSON.stringify(data));
   } catch (error) {
     console.error("Some thing doesn't feel right :", error);
@@ -129,14 +128,14 @@ app.post("/api/persons", async (req, res) => {
 });
 
 //Delete request
-app.delete("/api/persons/:id", (req, res) => {
+app.delete("/api/persons/:id", async (req, res) => {
   //deletes from the server but not from database
   try {
     const id = Number(req.params.id);
     //console.log("req.params.id: ", id);
-    const contact = data.find((items) => items.id === id);
-    //console.log("Look for id:", contact);
-    const contactIndex = data.indexOf(contact);
+    const contact = await Contact.findById(id);
+    console.log("Look for id:", contact);
+    //const contactIndex = data.indexOf(contact);
 
     if (contactIndex !== -1) {
       console.log("index of found contact:", contactIndex);
@@ -145,11 +144,11 @@ app.delete("/api/persons/:id", (req, res) => {
     }
 
     //Write new data to json
-    fs.writeFileSync("./data.json", JSON.stringify(data));
+    //fs.writeFileSync("./data.json", JSON.stringify(data));
 
     res.send("Contact deleted Successfully");
   } catch (error) {
-    console.error("Something is not right", error);
+    console.error("Cannot delete, please check error", error);
   }
 });
 
