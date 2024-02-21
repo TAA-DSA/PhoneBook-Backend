@@ -45,6 +45,7 @@ const contactSchema = new mongoose.Schema({
 
 //mongoose transform function
 //toJSON just transforms it into string just to be safe
+//Cutomize mongo Schema what you like to render on front-end
 
 contactSchema.set("toJSON", {
   transform: (document, returnedObject) => {
