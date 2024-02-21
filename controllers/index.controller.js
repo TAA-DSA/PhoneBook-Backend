@@ -35,6 +35,7 @@ const createContact = async (req, res) => {
     // fs.writeFileSync("./data.json", JSON.stringify(data));
   } catch (error) {
     console.error("Some thing doesn't feel right :", error);
+    res.status(500).end();
   }
 };
 
@@ -78,6 +79,7 @@ const getContactById = async (req, res) => {
     res.json(contact);
   } catch (err) {
     console.error("Error:", err);
+    res.status(400).send({ error: "malformatted id" });
   }
 };
 
