@@ -55,12 +55,13 @@ const indexPage = async (req, res) => {
 
 const updateNumberOnly = async (req, res) => {
   try {
-    const matchName = { name: req.params.name };
-    console.log("matchName :", matchName);
+    const id = req.params.id;
+    console.log("id from put request", id);
     const newNumber = { number: req.body.number };
     console.log("newNumber :", newNumber);
-    const updateNumber = await Contact.findOneAndUpdate(matchName, newNumber);
-    res.json("Successfully updated contact number");
+    const updateNumber = await Contact.findByIdAndUpdate(id, newNumber);
+
+    res.json(updateNumber);
   } catch (error) {
     console.error("Cannot update, please check err", error);
   }
@@ -91,8 +92,8 @@ const getContactById = async (req, res) => {
 
     res.json(contact);
   } catch (err) {
-    console.error("Error:", err);
     res.status(400).send({ error: "malformatted id" });
+    // console.error("Error:", err);
   }
 };
 
