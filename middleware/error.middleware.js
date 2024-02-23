@@ -19,17 +19,14 @@ app.use(
   )
 );
 
-// const errorHandler = (error, request, response, next) => {
-//   console.error(error.message);
+const errorHandler = (error, req, res, next) => {
+  console.error(error.message);
 
-//   if (error.name === "CastError") {
-//     return response.status(400).send({ error: "malformatted id" });
-//   }
+  if (error.name === "CastError") {
+    return res.status(400).send({ error: "malformatted id" });
+  }
 
-//   next(error);
-// };
+  next(error);
+};
 
-// // this has to be the last loaded middleware.
-// app.use(errorHandler);
-
-module.exports = app;
+module.exports = { app, errorHandler };

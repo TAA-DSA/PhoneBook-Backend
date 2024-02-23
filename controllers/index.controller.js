@@ -77,7 +77,7 @@ const getAllContact = async (req, res) => {
   }
 };
 
-const getContactById = async (req, res) => {
+const getContactById = async (req, res, next) => {
   try {
     const id = req.params.id;
     console.log("Requested ID:", id);
@@ -92,7 +92,8 @@ const getContactById = async (req, res) => {
 
     res.json(contact);
   } catch (err) {
-    res.status(400).send({ error: "malformatted id" });
+    next(err);
+    //res.status(400).send({ error: "malformatted id" });
     // console.error("Error:", err);
   }
 };
