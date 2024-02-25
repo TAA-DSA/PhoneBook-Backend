@@ -4,14 +4,13 @@ mongoose.set('strictQuery', false)
 
 require('dotenv').config()
 
-console.log(process.env.STATUS)
-
+//add validation
 const contactSchema = new mongoose.Schema({
   name: String,
   number: String,
 })
 
-//Customize schema output using transform
+//Customize schema output using transform {mongoose}
 contactSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
