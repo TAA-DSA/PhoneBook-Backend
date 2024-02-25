@@ -5,8 +5,6 @@ require('dotenv').config()
 const status = process.env.STATUS
 console.log('Status :', status)
 
-const password = process.env.SECRET_KEY
-
 const url = process.env.URI
 
 const connectToDatabase = async () => {

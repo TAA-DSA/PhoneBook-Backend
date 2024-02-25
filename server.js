@@ -13,6 +13,6 @@ app.use('/', route)
 
 app.use(errorHandler)
 
-app.listen(PORT, (req, res) => {
+app.listen(PORT, () => {
   console.log(`Server 🚀 running on ${PORT}`)
 })

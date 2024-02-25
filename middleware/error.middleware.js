@@ -9,7 +9,7 @@ app.use(cors())
 
 app.use(morgan('tiny'))
 
-morgan.token('reqBody', function (req, res) {
+morgan.token('reqBody', function (req) {
   return JSON.stringify(req.body)
 })
 
