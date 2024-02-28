@@ -1,7 +1,7 @@
 //const mongoose = require('mongoose')
 const Contact = require('./../models/mongo')
 
-const createContact = async (req, res) => {
+const createContact = async (req, res, next) => {
   try {
     const body = req.body
 
@@ -34,8 +34,9 @@ const createContact = async (req, res) => {
     //data.push(contactObj);
     // fs.writeFileSync("./data.json", JSON.stringify(data));
   } catch (error) {
-    console.error("Some thing doesn't feel right :", error)
-    res.status(500).end()
+    next(error)
+    //console.error("Some thing doesn't feel right :", error)
+    //res.status(500).end()
   }
 }
 
@@ -59,8 +60,9 @@ const updateNumberOnly = async (req, res) => {
     console.log('id from put request', id)
     const newNumber = { number: req.body.number }
     console.log('newNumber :', newNumber)
-    const updateNumber = await Contact.findByIdAndUpdate(id, newNumber)
+    const opts = { runValidators: true }
 
+    const updateNumber = await Contact.findByIdAndUpdate(id, newNumber, opts)
     res.json(updateNumber)
   } catch (error) {
     console.error('Cannot update, please check err', error)

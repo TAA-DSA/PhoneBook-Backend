@@ -6,9 +6,24 @@ require('dotenv').config()
 
 //add validation
 const contactSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    minLength: 3,
+    required: true,
+  },
+  number: {
+    type: String,
+    minLength: 8,
+    required: true,
+    validate: {
+      validator: (v) => {
+        return v
+      },
+    },
+  },
 })
+
+//
 
 //Customize schema output using transform {mongoose}
 contactSchema.set('toJSON', {
