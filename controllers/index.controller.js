@@ -22,7 +22,7 @@ const createContact = async (req, res, next) => {
     if (!contactObj.name || !contactObj.number || isDuplicate) {
       let errorMessage = ''
       if (!contactObj.name || !contactObj.number) {
-        errorMessage = 'name and number cannot be empty'
+        errorMessage = 'name or number cannot be empty'
       } else {
         errorMessage = 'name should be unique'
       }
@@ -54,18 +54,18 @@ const indexPage = async (req, res) => {
   }
 }
 
-const updateNumberOnly = async (req, res) => {
+const updateNumberOnly = async (req, res, next) => {
   try {
     const id = req.params.id
     console.log('id from put request', id)
     const newNumber = { number: req.body.number }
     console.log('newNumber :', newNumber)
     const opts = { runValidators: true }
-
     const updateNumber = await Contact.findByIdAndUpdate(id, newNumber, opts)
-    res.json(updateNumber)
+    res.send(updateNumber)
   } catch (error) {
     console.error('Cannot update, please check err', error)
+    next(error)
   }
 }
 
