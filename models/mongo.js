@@ -17,8 +17,9 @@ const contactSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => {
-        return v
+        return /^\d{3}-\d{5}$/.test(v)
       },
+      message: 'Number must be in the format XXX-XXXXXXX',
     },
   },
 })
