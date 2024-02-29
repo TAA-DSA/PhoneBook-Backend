@@ -1,4 +1,5 @@
 const Contact = require('./../models/mongo')
+const logger = require('../utils/logger')
 
 const createContact = async (req, res, next) => {
   try {
@@ -49,7 +50,7 @@ const indexPage = async (req, res) => {
     const message = openingMessage + currDate
     res.send(message)
   } catch (error) {
-    console.error('Cannot render, please check error:', error)
+    logger.error('Cannot render, please check error:', error)
   }
 }
 
@@ -58,12 +59,12 @@ const updateNumberOnly = async (req, res, next) => {
     const id = req.params.id
     console.log('id from put request', id)
     const newNumber = { number: req.body.number }
-    console.log('newNumber :', newNumber)
+    logger.info('newNumber :', newNumber)
     const opts = { runValidators: true }
     const updateNumber = await Contact.findByIdAndUpdate(id, newNumber, opts)
     res.send(updateNumber)
   } catch (error) {
-    console.error('Cannot update, please check err', error)
+    //console.error('Cannot update, please check err', error)
     next(error)
   }
 }
@@ -72,9 +73,9 @@ const getAllContact = async (req, res) => {
   try {
     const contact = await Contact.find({})
     res.json(contact)
-    console.log('All saved contact are sent to Front-end')
+    //console.log('All saved contact are sent to Front-end')
   } catch (error) {
-    console.error('Cannot find contacts', error)
+    logger.error('Cannot find contacts', error)
   }
 }
 
@@ -84,10 +85,10 @@ const getContactById = async (req, res, next) => {
     console.log('Requested ID:', id)
 
     const contact = await Contact.findById(id)
-    console.log('Hurray Id found', contact)
+    logger.info('Hurray Id found', contact)
 
     if (!contact) {
-      console.log('Contact not found')
+      logger.info('Contact not found')
       return res.status(404).end()
     }
 
@@ -104,11 +105,11 @@ const deleteAllContact = async (req, res) => {
     const id = req.params.id
     //console.log("req.params.id: ", id);
     const contact = await Contact.findByIdAndDelete(id)
-    console.log('Look for id:', contact)
+    logger.info('Look for id:', contact)
 
     res.send('Contact deleted Successfully')
   } catch (error) {
-    console.error('Cannot delete, please check error', error)
+    logger.error('Cannot delete, please check error', error)
   }
 }
 

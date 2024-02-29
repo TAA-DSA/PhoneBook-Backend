@@ -1,4 +1,5 @@
 const { app, errorHandler } = require('./middleware/error.middleware.js')
+const logger = require('./utils/logger.js')
 
 const route = require('./routes/index.routes')
 
@@ -13,5 +14,5 @@ app.use('/', route)
 app.use(errorHandler)
 
 app.listen(PORT, () => {
-  console.log(`Server 🚀 running on ${PORT}`)
+  logger.info(`Server 🚀 running on ${PORT}`)
 })

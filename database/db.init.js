@@ -1,18 +1,19 @@
+const logger = require('../utils/logger')
 const mongoose = require('mongoose')
 
 require('dotenv').config()
 
 const status = process.env.STATUS
-console.log('Status :', status)
+logger.info('Status :', status)
 
 const url = process.env.URI
 
 const connectToDatabase = async () => {
   try {
     await mongoose.connect(url)
-    console.log('Connected to mongoDB')
+    logger.info('Connected to mongoDB')
   } catch (error) {
-    console.error('Error connecting to mongoDB', error)
+    logger.error('Error connecting to mongoDB', error)
   }
 }
 

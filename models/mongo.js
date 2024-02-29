@@ -24,8 +24,6 @@ const contactSchema = new mongoose.Schema({
   },
 })
 
-//
-
 //Customize schema output using transform {mongoose}
 contactSchema.set('toJSON', {
   transform: (document, returnedObject) => {
