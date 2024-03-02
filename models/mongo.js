@@ -2,8 +2,6 @@ const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
 
-require('dotenv').config()
-
 //add validation
 const contactSchema = new mongoose.Schema({
   name: {

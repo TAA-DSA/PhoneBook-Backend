@@ -1,12 +1,13 @@
 const logger = require('../utils/logger')
 const mongoose = require('mongoose')
+const { STATUS, MONGODB_URI } = require('../utils/config')
 
 require('dotenv').config()
 
-const status = process.env.STATUS
-logger.info('Status :', status)
+//const status = process.env.STATUS
+logger.info('Status :', STATUS)
 
-const url = process.env.URI
+const url = MONGODB_URI
 
 const connectToDatabase = async () => {
   try {

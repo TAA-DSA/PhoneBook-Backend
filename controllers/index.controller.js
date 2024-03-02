@@ -35,7 +35,7 @@ const createContact = async (req, res, next) => {
     // fs.writeFileSync("./data.json", JSON.stringify(data));
   } catch (error) {
     next(error)
-    //console.error("Some thing doesn't feel right :", error)
+    logger.error("Some thing doesn't feel right :", error)
     //res.status(500).end()
   }
 }

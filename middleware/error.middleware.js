@@ -1,23 +1,12 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
-const morgan = require('morgan')
+const logger = require('../utils/logger')
 
-app.use(express.json())
-
-app.use(cors())
-
-app.use(morgan('tiny'))
-
-morgan.token('reqBody', function (req) {
-  return JSON.stringify(req.body)
-})
-
-app.use(
-  morgan(
-    ':method :url :status :res[content-length] - :response-time ms :reqBody'
-  )
-)
+const requestLogger = (request, response, next) => {
+  logger.info('Method:', request.method)
+  logger.info('Path:  ', request.path)
+  logger.info('Body:  ', request.body)
+  logger.info('---')
+  next()
+}
 
 const errorHandler = (error, req, res, next) => {
   console.error(error.message)
@@ -31,4 +20,4 @@ const errorHandler = (error, req, res, next) => {
   next(error)
 }
 
-module.exports = { app, errorHandler }
+module.exports = { requestLogger, errorHandler }
