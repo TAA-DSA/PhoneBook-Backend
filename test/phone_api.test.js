@@ -30,39 +30,40 @@ describe('Node test cases', () => {
   test('contacts are returned as json', { only: true }, async () => {
     await api
       .get('/api/persons')
-      .expect(201)
+      .expect(200)
       .expect('Content-Type', /application\/json/)
   })
 
-  test('there are five notes', async () => {
+  test('there are two notes', async () => {
     const response = await api.get('/api/persons')
 
     assert.strictEqual(response.body.length, 2)
   })
 
-  test('first contact name starts with T', async () => {
+  test('first contact name starts with N', async () => {
     const response = await api.get('/api/persons')
 
     const contents = response.body.map((e) => e.name)
-    assert.strictEqual(contents.includes('Tasdeed'), true)
+    console.log('content name :', contents)
+    assert.strictEqual(contents.includes('Nina Aziz'), true)
   })
 
-  //   test('a valid contact can be added ', async () => {
-  //     const newContact = {
-  //       content: 'Nina Patel',
-  //       number: '898-90909',
-  //     }
+  test('a valid contact can be added ', async () => {
+    const newContact = {
+      name: 'Nina Patel',
+      number: '898-90909',
+    }
 
-  //     await api.post('/api/persons').send(newContact).expect(201)
+    await api.post('/api/persons').send(newContact).expect(201)
 
-  //     const response = await api.get('/api/persons')
+    const response = await api.get('/api/persons')
 
-  //     const contents = response.body.map((r) => r.name)
+    const contents = response.body.map((r) => r.name)
 
-  //     assert.strictEqual(response.body.length, initialContact.length + 1)
+    assert.strictEqual(response.body.length, initialContact.length + 1)
 
-  //     assert(contents.includes('Nina Patel'))
-  //   })
+    assert(contents.includes('Nina Patel'))
+  })
 
   test('note without content is not added', async () => {
     const newContact = {

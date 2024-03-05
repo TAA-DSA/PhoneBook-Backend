@@ -26,17 +26,17 @@ const createContact = async (req, res, next) => {
       } else {
         errorMessage = 'name should be unique'
       }
-      res.status(201).json({ error: errorMessage })
+      res.status(400).json({ error: errorMessage })
     } else {
       const savedContact = await contactObj.save()
-      return res.json(savedContact)
+      return res.status(201).json(savedContact)
     }
     //data.push(contactObj);
     // fs.writeFileSync("./data.json", JSON.stringify(data));
   } catch (error) {
     next(error)
     logger.error("Some thing doesn't feel right :", error)
-    res.status(201).end()
+    res.status(400).end()
   }
 }
 
