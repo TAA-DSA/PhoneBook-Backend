@@ -1,0 +1,31 @@
+const Contact = require('../models/mongo.js')
+
+const initialContact = [
+  {
+    name: 'Nina Aziz',
+    number: '908-78797',
+  },
+  {
+    name: 'Pretty Eyes',
+    number: '908-89909',
+  },
+]
+
+const nonExistingId = async () => {
+  const contact = new Contact({ content: 'willremovethissoon' })
+  await contact.save()
+  await contact.deleteOne()
+
+  return contact._id.toString()
+}
+
+const notesInDb = async () => {
+  const contacts = await Contact.find({})
+  return contacts.map((contact) => contact.toJSON())
+}
+
+module.exports = {
+  initialContact,
+  nonExistingId,
+  notesInDb,
+}

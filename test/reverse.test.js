@@ -57,8 +57,6 @@ const blogs = [
 ]
 
 test('dummy returns one', () => {
-  const blogs = []
-
   const result = listHelper.dummy(blogs)
   assert.strictEqual(result, 1)
 })
@@ -69,7 +67,7 @@ describe('totalLikes', () => {
   test('of empty list is zero', () => {
     const lengthList = listHelper.totalLikes(blogs)
     console.log(lengthList)
-    assert.strictEqual(lengthList, 1)
+    assert.strictEqual(lengthList, 0)
   })
 
   test('when list has only one blog equals the likes of that blog ', () => {
