@@ -19,6 +19,10 @@ const contactSchema = new mongoose.Schema({
       },
       message: 'Number must be in the format XXX-XXXXXXX',
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
   },
 })
 

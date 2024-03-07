@@ -12,7 +12,7 @@ const initialContact = [
 ]
 
 const nonExistingId = async () => {
-  const contact = new Contact({ content: 'willremovethissoon' })
+  const contact = new Contact({ name: 'willremovethissoon' })
   await contact.save()
   await contact.deleteOne()
 

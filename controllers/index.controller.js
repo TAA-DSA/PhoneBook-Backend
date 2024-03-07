@@ -1,5 +1,17 @@
+const bcrypt = require('bcrypt')
 const Contact = require('./../models/mongo')
 const logger = require('../utils/logger')
+require('express-async-errors')
+
+const indexPage = async (req, res) => {
+  const numberOfContact = await Contact.countDocuments()
+  const date = new Date(Date.now())
+  const showDate = date.toString()
+  const openingMessage = `<h2>Phonebook has ${numberOfContact} people</h2>`
+  const currDate = `<p>${showDate}</p>`
+  const message = openingMessage + currDate
+  res.send(message)
+}
 
 const createContact = async (req, res, next) => {
   try {
@@ -15,8 +27,7 @@ const createContact = async (req, res, next) => {
 
     const isDuplicate = allRecords.some(
       (elements) =>
-        elements.name.toLocaleLowerCase() ===
-        contactObj.name.toLocaleLowerCase()
+        elements.name.toLowerCase() === contactObj.name.toLowerCase()
     )
 
     if (!contactObj.name || !contactObj.number || isDuplicate) {
@@ -37,20 +48,6 @@ const createContact = async (req, res, next) => {
     next(error)
     logger.error("Some thing doesn't feel right :", error)
     res.status(400).end()
-  }
-}
-
-const indexPage = async (req, res) => {
-  try {
-    const date = new Date(Date.now())
-    const showDate = date.toString()
-    const numberOfContact = await Contact.countDocuments()
-    const openingMessage = `<h2>Phonebook has info ${numberOfContact} people</h2>`
-    const currDate = `<p>${showDate}</p>`
-    const message = openingMessage + currDate
-    res.send(message)
-  } catch (error) {
-    logger.error('Cannot render, please check error:', error)
   }
 }
 
@@ -113,6 +110,16 @@ const deleteAllContact = async (req, res) => {
   }
 }
 
+//User Route
+
+const userPath = async (req, res) => {
+  try {
+    const { username, name, password } = req.body
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 module.exports = {
   createContact,
   updateNumberOnly,
@@ -120,4 +127,5 @@ module.exports = {
   getAllContact,
   getContactById,
   deleteAllContact,
+  userPath,
 }

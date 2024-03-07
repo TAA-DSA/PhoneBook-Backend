@@ -18,6 +18,7 @@ const initialContact = [
     number: '908-89909',
   },
 ]
+
 beforeEach(async () => {
   await Contact.deleteMany({})
   let contactObject = new Contact(initialContact[0])
