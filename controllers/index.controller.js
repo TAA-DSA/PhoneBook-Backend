@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+//const bcrypt = require('bcrypt')
 const Contact = require('./../models/mongo')
 const logger = require('../utils/logger')
 require('express-async-errors')
@@ -98,27 +98,29 @@ const getContactById = async (req, res, next) => {
 }
 
 const deleteAllContact = async (req, res) => {
-  try {
-    const id = req.params.id
-    //console.log("req.params.id: ", id);
-    const contact = await Contact.findByIdAndDelete(id)
-    logger.info('Look for id:', contact)
-
-    res.send('Contact deleted Successfully')
-  } catch (error) {
-    logger.error('Cannot delete, please check error', error)
-  }
+  const id = req.params.id
+  //console.log("req.params.id: ", id);
+  const contact = await Contact.findByIdAndDelete(id)
+  logger.info('Look for id:', contact)
+  res.send('Contact deleted Successfully')
 }
 
 //User Route
 
-const userPath = async (req, res) => {
-  try {
-    const { username, name, password } = req.body
-  } catch (error) {
-    console.log(error)
-  }
-}
+// const userPath = async (req, res) => {
+//   const { username, name, password } = req.body
+//   const salt = 10
+//   const passwordHash = await bcrypt.hash(password, salt)
+//   const User = new User({
+//     username,
+//     name,
+//     passwordHash,
+//   })
+
+//   const savedUser = await User.save()
+
+//   res.status(201).json(savedUser)
+// }
 
 module.exports = {
   createContact,
@@ -127,5 +129,5 @@ module.exports = {
   getAllContact,
   getContactById,
   deleteAllContact,
-  userPath,
+  // userPath,
 }

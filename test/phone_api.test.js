@@ -27,8 +27,10 @@ beforeEach(async () => {
   await contactObject.save()
 })
 
+// use this to run only one test { only: true }
+
 describe('Node test cases', () => {
-  test('contacts are returned as json', { only: true }, async () => {
+  test('contacts are returned as json', async () => {
     await api
       .get('/api/persons')
       .expect(200)
@@ -61,7 +63,7 @@ describe('Node test cases', () => {
 
     const contents = response.body.map((r) => r.name)
 
-    assert.strictEqual(response.body.length, initialContact.length + 1)
+    assert.strictEqual(response.body.length, contactObj.length + 1)
 
     assert(contents.includes('Nina Patel'))
   })
@@ -75,7 +77,7 @@ describe('Node test cases', () => {
 
     const response = await api.get('/api/persons')
 
-    assert.strictEqual(response.body.length, initialContact.length)
+    assert.strictEqual(response.body.length, contactObj.length)
   })
 })
 

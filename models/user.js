@@ -12,6 +12,8 @@ const userSchema = new mongoose.Schema({
   ],
 })
 
+//customise mongoose output
+
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
