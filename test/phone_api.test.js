@@ -21,10 +21,12 @@ const initialContact = [
 
 beforeEach(async () => {
   await Contact.deleteMany({})
-  let contactObject = new Contact(initialContact[0])
-  await contactObject.save()
-  contactObject = new Contact(initialContact[1])
-  await contactObject.save()
+
+  let contactObject = initialContact.map((items) => new Contact(items))
+
+  const promiseArr = contactObject.map((contacts) => contacts.save())
+
+  await Promise.all(promiseArr)
 })
 
 // use this to run only one test { only: true }
@@ -63,7 +65,7 @@ describe('Node test cases', () => {
 
     const contents = response.body.map((r) => r.name)
 
-    assert.strictEqual(response.body.length, contactObj.length + 1)
+    assert.strictEqual(response.body.length, initialContact.length + 1)
 
     assert(contents.includes('Nina Patel'))
   })
@@ -77,7 +79,7 @@ describe('Node test cases', () => {
 
     const response = await api.get('/api/persons')
 
-    assert.strictEqual(response.body.length, contactObj.length)
+    assert.strictEqual(response.body.length, initialContact.length)
   })
 })
 
