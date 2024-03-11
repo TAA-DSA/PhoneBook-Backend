@@ -72,7 +72,8 @@ describe('Node test cases', () => {
 
   test('note without content is not added', async () => {
     const newContact = {
-      number: '908-12345',
+      name: '',
+      number: '',
     }
 
     await api.post('/api/persons').send(newContact).expect(400)
