@@ -6,6 +6,8 @@ const app = require('../app')
 const Contact = require('../models/mongo')
 const api = supertest(app)
 
+require('express-async-errors')
+
 console.log('Running Integration Test')
 
 const initialContact = [
@@ -81,6 +83,13 @@ describe('Node test cases', () => {
     const response = await api.get('/api/persons')
 
     assert.strictEqual(response.body.length, initialContact.length)
+  })
+})
+
+describe('test api get request', () => {
+  test('fails with status code 404 if contact does not exsist', async (req, res) => {
+    const id = req.params.id
+    await api.get(`/api/persons/${id}`).expect(404)
   })
 })
 
