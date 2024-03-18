@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs')
+const User = require('./../models/user')
 const Contact = require('./../models/mongo')
 const logger = require('../utils/logger')
 require('express-async-errors')
@@ -87,17 +88,16 @@ const deleteAllContact = async (req, res) => {
 //User Route
 
 const userPath = async (req, res) => {
+  //res.json('Hello Users, Please register')
   const { username, name, password } = req.body
   const salt = 10
   const passwordHash = await bcrypt.hash(password, salt)
-  const User = new User({
+  const user = new User({
     username,
     name,
     passwordHash,
   })
-
-  const savedUser = await User.save()
-
+  const savedUser = await user.save()
   res.status(201).json(savedUser)
 }
 
