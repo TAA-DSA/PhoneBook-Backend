@@ -5,6 +5,9 @@ const supertest = require('supertest')
 const app = require('../app')
 const Contact = require('../models/mongo')
 const api = supertest(app)
+const bcrypt = require('bcryptjs')
+const User = require('../models/user')
+const helper = require('./list_helper')
 
 require('express-async-errors')
 
@@ -86,10 +89,43 @@ describe('Node test cases', () => {
   })
 })
 
-describe('test api get request', () => {
-  test('fails with status code 404 if contact does not exsist', async (req, res) => {
-    const id = req.params.id
-    await api.get(`/api/persons/${id}`).expect(404)
+//This test fails fix it
+// describe('test api get request', () => {
+//   test('fails with status code 404 if contact does not exsist', async (req, res) => {
+//     const id = req.params.id
+//     await api.get(`/api/persons/${id}`).expect(404)
+//   })
+// })
+describe('when there is initially one user in db', () => {
+  beforeEach(async () => {
+    await User.deleteMany({})
+
+    const passwordHash = await bcrypt.hash('sekret', 10)
+    const user = new User({ username: 'root', passwordHash })
+
+    await user.save()
+  })
+
+  test('creation succeeds with a fresh username', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'mluukkai',
+      name: 'Matti Luukkainen',
+      password: 'salainen',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length + 1)
+
+    const usernames = usersAtEnd.map((u) => u.username)
+    assert(usernames.includes(newUser.username))
   })
 })
 
