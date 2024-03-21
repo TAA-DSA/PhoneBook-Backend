@@ -9,5 +9,6 @@ router.put('/api/persons/:id', indexController.updateNumberOnly)
 router.post('/api/persons', indexController.createContact)
 router.delete('/api/persons/:id', indexController.deleteAllContact)
 router.post('/api/users', indexController.userPath)
+router.get('/api/users', indexController.getUsers)
 
 module.exports = router

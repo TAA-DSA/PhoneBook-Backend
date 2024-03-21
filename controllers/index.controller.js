@@ -101,6 +101,14 @@ const userPath = async (req, res) => {
   res.status(201).json(savedUser)
 }
 
+//Get all save users
+
+const getUsers = async (req, res) => {
+  const response = await User.find({})
+  console.log(response)
+  res.json(response)
+}
+
 module.exports = {
   createContact,
   updateNumberOnly,
@@ -109,4 +117,5 @@ module.exports = {
   getContactById,
   deleteAllContact,
   userPath,
+  getUsers,
 }
