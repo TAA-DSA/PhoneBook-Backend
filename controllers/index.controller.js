@@ -17,9 +17,13 @@ const indexPage = async (req, res) => {
 const createContact = async (req, res) => {
   const body = req.body
 
+  //adding user to post
+  const user = await User.findById(body.userId)
+
   const contactObj = new Contact({
     name: body.name,
     number: body.number,
+    user: user.id,
   })
 
   const allRecords = await Contact.find({})
@@ -39,7 +43,9 @@ const createContact = async (req, res) => {
     res.status(400).json({ error: errorMessage })
   } else {
     const savedContact = await contactObj.save()
-    return res.status(201).json(savedContact)
+    user.contact = user.contact.concat(savedContact._id)
+    await user.save()
+    res.status(201).json(savedContact)
   }
   //data.push(contactObj);
   // fs.writeFileSync("./data.json", JSON.stringify(data));
@@ -104,7 +110,7 @@ const userPath = async (req, res) => {
 //Get all save users
 
 const getUsers = async (req, res) => {
-  const response = await User.find({})
+  const response = await User.find({}).populate('contact')
   console.log(response)
   res.json(response)
 }

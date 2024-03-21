@@ -1,4 +1,8 @@
 const mongoose = require('mongoose')
+//Add other validation
+//Check if username is long enough
+//username only contains the permitted character
+//password is strong enough
 
 const userSchema = new mongoose.Schema({
   username: {
