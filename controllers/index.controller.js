@@ -62,7 +62,10 @@ const updateNumberOnly = async (req, res) => {
 }
 
 const getAllContact = async (req, res) => {
-  const contact = await Contact.find({})
+  const contact = await Contact.find({}).populate('user', {
+    username: 1,
+    name: 1,
+  })
   res.json(contact)
   //console.log('All saved contact are sent to Front-end')
 }
