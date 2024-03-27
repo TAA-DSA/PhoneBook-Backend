@@ -122,9 +122,14 @@ const getUsers = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const username = req.params.username
-  console.log(username)
-  await User.deleteOne({ username })
-  res.status(204).json('Delete successful')
+
+  const user = await User.findOne({ username })
+
+  if (user) {
+    await User.deleteOne({ user })
+    return res.json({ msg: `${username} deleted` })
+  }
+  return res.json({ error: `${username} not found` })
 }
 
 module.exports = {
