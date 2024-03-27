@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   name: String,
-  password: String,
+  passwordHash: String,
   contact: [
     {
       type: mongoose.Schema.Types.ObjectId,
