@@ -12,5 +12,6 @@ router.delete('/api/persons/:id', indexController.deleteAllContact)
 router.post('/api/users', indexController.userPath)
 router.get('/api/users', indexController.getUsers)
 router.post('/api/login', loginRouter)
+router.delete('/api/:username', indexController.deleteUser)
 
 module.exports = router

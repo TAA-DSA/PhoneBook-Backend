@@ -60,7 +60,7 @@ describe('Node test cases', () => {
 
   test('a valid contact can be added ', async () => {
     const newContact = {
-      name: 'Nina Patel',
+      name: 'Mary Brown',
       number: '898-90909',
     }
 

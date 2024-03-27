@@ -118,6 +118,15 @@ const getUsers = async (req, res) => {
   res.json(response)
 }
 
+//Delete user
+
+const deleteUser = async (req, res) => {
+  const username = req.params.username
+  console.log(username)
+  await User.deleteOne({ username })
+  res.status(204).json('Delete successful')
+}
+
 module.exports = {
   createContact,
   updateNumberOnly,
@@ -127,4 +136,5 @@ module.exports = {
   deleteAllContact,
   userPath,
   getUsers,
+  deleteUser,
 }
