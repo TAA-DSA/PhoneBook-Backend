@@ -7,15 +7,15 @@
 # }
 
 
-# POST http://localhost:3001/api/users
-# Content-Type: application/json
+POST http://localhost:3001/api/users
+Content-Type: application/json
 
-# {
-#     "username":"Dsa",
-#     "name":"computer scientist",
-#     "password":"salainen"
+{
+    "username":"Nina Momtaz",
+    "name":"Momtaz",
+    "password":"salainen"
     
-# }
+}
 
-DELETE http://localhost:3001/api/root
+# DELETE http://localhost:3001/api/
 
